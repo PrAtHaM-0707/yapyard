@@ -6,7 +6,7 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
     const mailOptions = {
       from: `"${sender.name}" <${sender.email}>`,
       to: email,
-      subject: "Welcome to Chatify!",
+      subject: "Welcome to YapYard!",
       html: createWelcomeEmailTemplate(name, clientURL),
     };
 
