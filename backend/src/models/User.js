@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: true,
+      sparse: true,
       lowercase: true,
       match: /^[a-z0-9._]+$/,
     },
