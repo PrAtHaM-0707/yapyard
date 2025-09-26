@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { io } from "socket.io-client";
-import toast from "react-hot-toast"; // Add this import
+import toast from "react-hot-toast"; 
 
 const BASE_URL = import.meta.env.MODE === "development" ? "https://yapyard-20fr.onrender.com" : "/";
 
