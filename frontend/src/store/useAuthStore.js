@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast"; // Add this import
 
-const BASE_URL = import.meta.env.MODE === "development" ? "https://yapyard.vercel.app" : "/";
+const BASE_URL = import.meta.env.MODE === "development" ? "https://yapyard-20fr.onrender.com" : "/";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
