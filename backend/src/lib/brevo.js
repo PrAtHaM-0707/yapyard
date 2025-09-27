@@ -25,7 +25,6 @@ export const sendEmail = async ({ to, subject, html }) => {
     }
 
     const data = await response.json();
-    console.log("Email sent:", { id: data.messageId, to, subject, timestamp: new Date().toISOString() });
     return data;
   } catch (error) {
     console.error("Error sending email:", { to, subject, error: error.message, timestamp: new Date().toISOString() });

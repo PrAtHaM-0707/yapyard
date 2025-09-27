@@ -17,7 +17,9 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
-      get().connectSocket();
+      if (res.data?.username) {
+        get().connectSocket(); // Only connect socket if username is set
+      }
     } catch {
       set({ authUser: null });
     } finally {
@@ -40,6 +42,7 @@ export const useAuthStore = create((set, get) => ({
   verifyOtp: async (data) => {
     try {
       const res = await axiosInstance.post("/auth/verify-otp", data);
+      set({ authUser: { email: data.email } }); // Set partial authUser to avoid redirect to login
       return res.data;
     } catch (error) {
       throw error.response?.data?.message || "OTP verification failed";
@@ -98,16 +101,16 @@ export const useAuthStore = create((set, get) => ({
       await axiosInstance.post("/auth/logout");
       set({ authUser: null }); // Clear user state
       get().disconnectSocket();
-      toast.success("Logged out successfully", { duration: 3000 }); // Ensure toast is shown after state update
+      toast.success("Logged out successfully", { duration: 3000 });
     } catch (error) {
-      console.error("Logout error:", error); // Log error for debugging
+      console.error("Logout error:", error);
       throw error.response?.data?.message || "Logout failed";
     }
   },
 
   updateProfile: async (data) => {
     try {
-      const res = await axiosInstance.put("/auth/update-profile", data);
+      const res = await axiosInstance.post("/auth/update-profile", data);
       set({ authUser: res.data });
       return res.data;
     } catch (error) {

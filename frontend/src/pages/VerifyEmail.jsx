@@ -21,8 +21,10 @@ function VerifyEmail() {
     setIsVerifying(true);
     try {
       await verifyOtp({ email, otp });
-      toast.success("Email verified!");
-      navigate(`/set-username?email=${encodeURIComponent(email)}`);
+      setTimeout(() => {
+        toast.success("Email verified!");
+        navigate(`/set-username?email=${encodeURIComponent(email)}`);
+      }, 500); // Delay to avoid toast overlap
     } catch (error) {
       toast.error(error.response?.data?.message || "Verification failed");
     } finally {

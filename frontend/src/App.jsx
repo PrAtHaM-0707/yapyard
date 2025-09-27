@@ -23,13 +23,24 @@ function App() {
   return (
     <div className="min-h-screen relative flex flex-col">
       <Routes>
-        <Route path="/" element={authUser ? <ChatPage /> : <Navigate to={"/login"} />} />
-        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
-        <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
-        <Route path="/verify-email" element={!authUser ? <VerifyEmail /> : <Navigate to={"/"} />} />
-        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Navigate to={"/"} />} />
-        <Route path="/reset-password" element={!authUser ? <ResetPassword /> : <Navigate to={"/"} />} />
-        <Route path="/set-username" element={!authUser ? <SetUsername /> : <Navigate to={"/"} />} />
+        <Route
+          path="/"
+          element={
+            authUser && authUser.username ? (
+              <ChatPage />
+            ) : authUser ? (
+              <Navigate to={`/set-username?email=${encodeURIComponent(authUser.email)}`} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
+        <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
+        <Route path="/verify-email" element={!authUser ? <VerifyEmail /> : <Navigate to="/" />} />
+        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Navigate to="/" />} />
+        <Route path="/reset-password" element={!authUser ? <ResetPassword /> : <Navigate to="/" />} />
+        <Route path="/set-username" element={authUser ? <SetUsername /> : <Navigate to="/login" />} />
       </Routes>
 
       <Toaster />
