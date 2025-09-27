@@ -15,7 +15,10 @@ function App() {
   const { checkAuth, isCheckingAuth, authUser } = useAuthStore();
 
   useEffect(() => {
-    checkAuth();
+    const timer = setTimeout(() => {
+      checkAuth();
+    }, 1000); // Increased delay to 1000ms
+    return () => clearTimeout(timer);
   }, [checkAuth]);
 
   if (isCheckingAuth) return <PageLoader />;

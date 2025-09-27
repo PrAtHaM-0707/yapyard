@@ -18,10 +18,25 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
       if (res.data?.username) {
-        get().connectSocket(); // Only connect socket if username is set
+        get().connectSocket();
       }
-    } catch {
-      set({ authUser: null });
+    } catch (error) {
+      if (error.response?.status === 401) {
+        // Retry once after a delay
+        setTimeout(async () => {
+          try {
+            const retryRes = await axiosInstance.get("/auth/check");
+            set({ authUser: retryRes.data });
+            if (retryRes.data?.username) {
+              get().connectSocket();
+            }
+          } catch {
+            set({ authUser: null });
+          }
+        }, 500);
+      } else {
+        set({ authUser: null });
+      }
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -42,7 +57,7 @@ export const useAuthStore = create((set, get) => ({
   verifyOtp: async (data) => {
     try {
       const res = await axiosInstance.post("/auth/verify-otp", data);
-      set({ authUser: { email: data.email } }); // Set partial authUser to avoid redirect to login
+      set({ authUser: { email: data.email } });
       return res.data;
     } catch (error) {
       throw error.response?.data?.message || "OTP verification failed";
@@ -99,7 +114,7 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
-      set({ authUser: null }); // Clear user state
+      set({ authUser: null });
       get().disconnectSocket();
       toast.success("Logged out successfully", { duration: 3000 });
     } catch (error) {

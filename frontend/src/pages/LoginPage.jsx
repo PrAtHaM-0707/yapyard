@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import {
-  MessageCircle,
-  Lock,
-  Mail,
-  Loader,
-  Star,
-  Rocket,
-  Heart,
-} from "lucide-react";
+import { MessageCircle, Lock, Mail, Loader, Star, Rocket, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -24,37 +16,31 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check for empty fields
     if (!formData.email || !formData.password) {
       toast.error("All fields are required!");
       return;
     }
 
     try {
+      toast.dismiss(); // Clear previous toasts
       await login(formData);
-      toast.success("Logged in successfully");
+      setTimeout(() => {
+        toast.success("Logged in successfully");
+      }, 1000); // Increased delay to 1000ms
     } catch (error) {
-      toast.error(error || "Login failed"); // Use thrown error message
+      toast.error(error || "Login failed");
     }
   };
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 relative overflow-hidden flex items-center justify-center p-4">
-      {/* Geometric Background */}
       <div className="absolute inset-0">
         <div className="absolute top-4 left-4 w-32 h-32 bg-yellow-400 rounded-full opacity-20 animate-bounce"></div>
         <div className="absolute top-60 right-8 w-24 h-24 bg-green-400 rounded-lg rotate-45 opacity-30 animate-pulse"></div>
         <div className="absolute bottom-8 left-16 w-48 h-48 bg-blue-400 rounded-full opacity-15 animate-ping"></div>
         <div className="absolute top-24 left-1/2 w-12 h-12 bg-red-400 rotate-12 opacity-40"></div>
-        <svg
-          className="absolute bottom-0 left-0 w-full h-16 opacity-30"
-          viewBox="0 0 1440 120"
-        >
-          <path
-            fill="#ffffff"
-            fillOpacity="0.3"
-            d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,165.3C1248,181,1344,171,1392,165.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          ></path>
+        <svg className="absolute bottom-0 left-0 w-full h-16 opacity-30" viewBox="0 0 1440 120">
+          <path fill="#ffffff" fillOpacity="0.3" d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,165.3C1248,181,1344,171,1392,165.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
       </div>
 
@@ -63,7 +49,6 @@ function LoginPage() {
           <div className="h-1 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500"></div>
 
           <div className="grid lg:grid-cols-5 gap-0">
-            {/* Left - Illustration */}
             <div className="lg:col-span-3 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-700 p-6 flex items-center justify-center relative overflow-hidden">
               <div className="absolute top-4 right-4 w-16 h-16 bg-yellow-400 rounded-full opacity-30"></div>
               <div className="absolute bottom-8 left-4 w-12 h-12 bg-green-400 rounded-lg rotate-45 opacity-40"></div>
@@ -72,11 +57,7 @@ function LoginPage() {
               <div className="text-center relative z-10">
                 <div className="relative mb-3">
                   <div className="w-40 h-40 lg:w-48 lg:h-48 bg-white rounded-2xl p-3 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 mx-auto">
-                    <img
-                      src="/login.png"
-                      alt="Login Illustration"
-                      className="w-full h-full object-contain rounded-xl"
-                    />
+                    <img src="/login.png" alt="Login Illustration" className="w-full h-full object-contain rounded-xl" />
                   </div>
                   <div className="absolute -top-2 -left-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
                     <Heart className="w-4 h-4 text-white" />
@@ -87,18 +68,12 @@ function LoginPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-lg lg:text-2xl font-black text-white mb-1">
-                    Join 50,000+ Happy Users!
-                  </h3>
-                  <p className="text-white/90 text-xs lg:text-sm font-medium leading-relaxed">
-                    Be part of an amazing community where creativity meets
-                    technology
-                  </p>
+                  <h3 className="text-lg lg:text-2xl font-black text-white mb-1">Join 50,000+ Happy Users!</h3>
+                  <p className="text-white/90 text-xs lg:text-sm font-medium leading-relaxed">Be part of an amazing community where creativity meets technology</p>
                 </div>
               </div>
             </div>
 
-            {/* Right - Login Form */}
             <div className="lg:col-span-2 p-4 lg:p-8 bg-gradient-to-br from-white to-indigo-50 flex items-center justify-center">
               <div className="w-full max-w-sm">
                 <div className="text-center mb-6">
@@ -116,17 +91,12 @@ function LoginPage() {
                   <h1 className="text-2xl lg:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 mb-1 font-sans">
                     Welcome Back!
                   </h1>
-                  <p className="text-sm text-gray-600 font-medium">
-                    Login to access your account
-                  </p>
+                  <p className="text-sm text-gray-600 font-medium">Login to access your account</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Email */}
                   <div className="relative">
-                    <label className="text-m font-bold text-gray-700 block mb-1">
-                      Email
-                    </label>
+                    <label className="text-m font-bold text-gray-700 block mb-1">Email</label>
                     <div className="relative group">
                       <div className="absolute left-0 top-0 w-full h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                       <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-500 z-50 pr-1" />
@@ -142,11 +112,8 @@ function LoginPage() {
                     </div>
                   </div>
 
-                  {/* Password */}
                   <div className="relative">
-                    <label className="text-m font-bold text-gray-700 block mb-1">
-                      Password
-                    </label>
+                    <label className="text-m font-bold text-gray-700 block mb-1">Password</label>
                     <div className="relative group">
                       <div className="absolute left-0 top-0 w-full h-full bg-gradient-to-r from-pink-400 to-red-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                       <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-pink-500 z-50 pr-1" />
@@ -170,7 +137,6 @@ function LoginPage() {
                     </div>
                   </div>
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={isLoggingIn}
@@ -187,7 +153,6 @@ function LoginPage() {
                   </button>
                 </form>
 
-                {/* Signup Link */}
                 <div className="mt-4 text-center">
                   <Link
                     to="/signup"
