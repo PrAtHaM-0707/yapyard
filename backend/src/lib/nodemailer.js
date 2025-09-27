@@ -1,16 +1,16 @@
 import nodemailer from "nodemailer";
 import { ENV } from "./env.js";
 
-// Use Gmail service directly (no need for host/port/secure)
 export const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-relay.sendinblue.com",
+  port: 587,
   auth: {
     user: ENV.SMTP_USER,
-    pass: ENV.SMTP_PASS, // must be a Gmail App Password
+    pass: ENV.SMTP_PASS,
   },
-  connectionTimeout: 10000, // 10 seconds
+  connectionTimeout: 10000,
   tls: {
-    rejectUnauthorized: false, // bypasses some SSL issues
+    rejectUnauthorized: false,
   },
 });
 
