@@ -1,3 +1,4 @@
+// auth.controller.js
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ENV } from "../lib/env.js";
@@ -151,8 +152,14 @@ export const login = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
 
-    generateToken(user._id, res);
-
+    const token = generateToken(user._id, res);
+    console.log("Login response sent with user:", {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      username: user.username,
+      profilePic: user.profilePic,
+    }, "Token:", token); // Log response and token
     res.status(200).json({
       _id: user._id,
       fullName: user.fullName,

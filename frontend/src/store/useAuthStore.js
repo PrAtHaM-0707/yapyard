@@ -1,3 +1,4 @@
+// useAuthStore.js
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { io } from "socket.io-client";
@@ -15,22 +16,28 @@ export const useAuthStore = create((set, get) => ({
 
   checkAuth: async () => {
     try {
+      console.log("Checking auth with request to /auth/check"); // Log request start
       const res = await axiosInstance.get("/auth/check");
+      console.log("CheckAuth response:", res.data); // Log response
       set({ authUser: res.data });
       if (res.data?.username) {
         get().connectSocket();
       }
     } catch (error) {
+      console.error("CheckAuth error:", error.response?.data || error.message); // Log error
       if (error.response?.status === 401) {
         // Retry once after a delay
         setTimeout(async () => {
           try {
+            console.log("Retrying auth check after 500ms");
             const retryRes = await axiosInstance.get("/auth/check");
+            console.log("Retry CheckAuth response:", retryRes.data); // Log retry response
             set({ authUser: retryRes.data });
             if (retryRes.data?.username) {
               get().connectSocket();
             }
           } catch {
+            console.error("Retry CheckAuth failed");
             set({ authUser: null });
           }
         }, 500);
@@ -97,6 +104,7 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
+      console.log("Login API response:", res.data); // Log login response
       if (res.status === 200 && res.data) {
         set({ authUser: res.data });
         get().connectSocket();
@@ -105,6 +113,7 @@ export const useAuthStore = create((set, get) => ({
         throw new Error(res.data?.message || "Login failed");
       }
     } catch (error) {
+      console.error("Login error:", error.response?.data || error.message); // Log login error
       throw error.response?.data?.message || error.message || "Login failed";
     } finally {
       set({ isLoggingIn: false });
