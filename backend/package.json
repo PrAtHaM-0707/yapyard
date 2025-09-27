@@ -14,6 +14,7 @@
   "dependencies": {
     "@arcjet/inspect": "^1.0.0-beta.10",
     "@arcjet/node": "^1.0.0-beta.10",
+    "@getbrevo/brevo": "^3.0.1",
     "@sendinblue/client": "^3.3.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
@@ -24,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "nodemailer": "^7.0.6",
+    "resend": "^6.1.0",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
