@@ -11,11 +11,10 @@ function ContactList() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchedUser, setSearchedUser] = useState(null);
 
+  // Fetch all users on mount
   useEffect(() => {
-    if (searchQuery.trim()) {
-      getAllContacts(); // Fetch contacts only when searching
-    }
-  }, [getAllContacts, searchQuery]);
+    getAllContacts();
+  }, [getAllContacts]);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
@@ -63,9 +62,41 @@ function ContactList() {
       {isUsersLoading ? (
         <UsersLoadingSkeleton />
       ) : searchQuery.trim() === "" ? (
-        <div className="text-center py-8 text-gray-500">
-          Start typing to search for contacts
-        </div>
+        allContacts.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            No users found
+          </div>
+        ) : (
+          <div className="space-y-2 max-h-[calc(100%-60px)] overflow-y-auto">
+            {allContacts.map((contact) => (
+              <div
+                key={contact._id}
+                className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
+                onClick={() => setSelectedUser(contact)}
+              >
+                <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <img
+                      src={contact.profilePic || "/avatar.png"}
+                      alt={contact.fullName}
+                      className="w-full h-full object-cover"
+                    />
+                    {onlineUsers.includes(contact._id) && (
+                      <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-gray-900 font-medium truncate">{contact.fullName}</h4>
+                  <p className="text-xs text-gray-500 truncate">@{contact.username}</p>
+                </div>
+                {onlineUsers.includes(contact._id) && (
+                  <span className="w-3 h-3 bg-cyan-500 rounded-full"></span>
+                )}
+              </div>
+            ))}
+          </div>
+        )
       ) : searchedUser ? (
         // Searched User (from @username search)
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between gap-3">
@@ -100,7 +131,7 @@ function ContactList() {
         </div>
       ) : (
         // Search Results (from name/username search)
-        <div className="space-y-2">
+        <div className="space-y-2 max-h-[calc(100%-60px)] overflow-y-auto">
           {searchResults.map((contact) => (
             <div
               key={contact._id}
