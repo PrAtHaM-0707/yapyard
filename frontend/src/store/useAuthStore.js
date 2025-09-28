@@ -170,7 +170,12 @@ export const useAuthStore = create((set, get) => ({
       withCredentials: true,
     });
 
-    socket.connect();
+    socket.on("connect", () => {
+      console.log("Socket connected successfully for user:", authUser._id);
+    });
+    socket.on("connect_error", (err) => {
+      console.error("Socket connection error:", err.message);
+    });
 
     set({ socket });
 
