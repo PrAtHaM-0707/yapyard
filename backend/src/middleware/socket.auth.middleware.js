@@ -1,3 +1,4 @@
+// socket.auth.middleware.js
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ENV } from "../lib/env.js";
@@ -9,6 +10,8 @@ export const socketAuthMiddleware = async (socket, next) => {
       ?.split("; ")
       .find((row) => row.startsWith("jwt="))
       ?.split("=")[1];
+
+    console.log("Socket auth - Received cookie:", socket.handshake.headers.cookie);
 
     if (!token) {
       console.log("Socket connection rejected: No token provided");

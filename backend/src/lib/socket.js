@@ -1,3 +1,4 @@
+// lib/socket.js
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
@@ -11,6 +12,7 @@ const io = new Server(server, {
   cors: {
     origin: [ENV.CLIENT_URL],
     credentials: true,
+    methods: ["GET", "POST"],
   },
 });
 

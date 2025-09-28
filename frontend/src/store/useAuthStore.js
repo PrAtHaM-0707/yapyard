@@ -168,6 +168,9 @@ export const useAuthStore = create((set, get) => ({
 
     const socket = io(BASE_URL, {
       withCredentials: true,
+      extraHeaders: {
+        Cookie: document.cookie, // Ensure cookie is sent
+      },
     });
 
     socket.on("connect", () => {
