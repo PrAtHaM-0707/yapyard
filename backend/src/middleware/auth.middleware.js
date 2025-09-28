@@ -6,13 +6,13 @@ import { ENV } from "../lib/env.js";
 export const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
-    console.log("Cookies received:", req.cookies); // Log all cookies
+    //console.log("Cookies received:", req.cookies);
     if (!token) {
-      console.log("No JWT token in cookies");
+      //console.log("No JWT token in cookies");
       return res.status(401).json({ message: "Unauthorized - No token provided" });
     }
     const decoded = jwt.verify(token, ENV.JWT_SECRET);
-    console.log("JWT decoded:", decoded); // Log decoded token
+    //console.log("JWT decoded:", decoded); 
     if (!decoded) return res.status(401).json({ message: "Unauthorized - Invalid token" });
 
     const user = await User.findById(decoded.userId).select("-password");
