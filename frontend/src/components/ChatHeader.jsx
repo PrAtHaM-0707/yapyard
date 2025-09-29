@@ -1,9 +1,9 @@
-import { XIcon, Star } from "lucide-react";
-import { useChatStore } from "../store/useChatStore";
 import { useEffect } from "react";
+import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
+import { XIcon, Star, Info } from "lucide-react";
 
-function ChatHeader() {
+function ChatHeader({ toggleRightSidebar }) {
   const { selectedUser, setSelectedUser } = useChatStore();
   const { onlineUsers } = useAuthStore();
   const isOnline = onlineUsers.includes(selectedUser._id);
@@ -51,16 +51,24 @@ function ChatHeader() {
           </div>
         </div>
 
-        {/* Right: Close button */}
-        <button
-          onClick={() => setSelectedUser(null)}
-          className="p-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
-        >
-          <XIcon className="w-5 h-5 text-white" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-sm animate-pulse">
-            <Star className="w-2 h-2 text-white" />
-          </div>
-        </button>
+        {/* Right: Actions */}
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={toggleRightSidebar}
+            className="p-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 md:hidden"
+          >
+            <Info className="w-5 h-5 text-white" />
+          </button>
+          <button
+            onClick={() => setSelectedUser(null)}
+            className="p-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+          >
+            <XIcon className="w-5 h-5 text-white" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-sm animate-pulse">
+              <Star className="w-2 h-2 text-white" />
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );
