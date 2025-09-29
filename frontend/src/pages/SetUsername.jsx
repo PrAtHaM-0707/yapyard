@@ -10,6 +10,8 @@ function SetUsername() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+
   const { setUsername } = useAuthStore();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -28,15 +30,18 @@ function SetUsername() {
     const value = e.target.value.toLowerCase().replace(/[^a-z0-9._]/g, "");
     setUsernameInput(value);
 
-    const error = validateUsername(value);
-    setError(error);
+    const validationError = validateUsername(value);
+    setError(validationError);
+    setIsUsernameAvailable(false); // reset availability on change
 
-    if (!error && value) {
+    if (!validationError && value) {
       setCheckingUsername(true);
       try {
         await axiosInstance.get(`/auth/check-username/${value}`);
+        setIsUsernameAvailable(true); // username is free
       } catch (err) {
-        setError(err.response?.data?.message || "Username error");
+        setError(err.response?.data?.message || "Username taken");
+        setIsUsernameAvailable(false);
       } finally {
         setCheckingUsername(false);
       }
@@ -45,22 +50,22 @@ function SetUsername() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const error = validateUsername(usernameInput);
-    setError(error);
+    const validationError = validateUsername(usernameInput);
+    setError(validationError);
 
-    if (!error) {
+    if (!validationError && isUsernameAvailable) {
       setIsSubmitting(true);
       try {
         await setUsername({ email, username: usernameInput });
         toast.success("Username set successfully!");
         navigate("/");
-      } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to set username");
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Failed to set username");
       } finally {
         setIsSubmitting(false);
       }
     } else {
-      toast.error("Please fix errors");
+      toast.error("Please fix errors before submitting");
     }
   };
 
@@ -108,7 +113,9 @@ function SetUsername() {
                   placeholder="your.username"
                   required
                 />
-                {checkingUsername && <Loader className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />}
+                {checkingUsername && (
+                  <Loader className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />
+                )}
               </div>
               {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
             </div>
@@ -116,7 +123,7 @@ function SetUsername() {
             <button 
               className="w-full py-3 px-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white text-sm font-black rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
               type="submit" 
-              disabled={isSubmitting || checkingUsername || !!error}
+              disabled={isSubmitting || checkingUsername || !!error || !isUsernameAvailable}
             >
               {isSubmitting ? <Loader className="w-4 h-4 animate-spin mx-auto" /> : "Set Username"}
             </button>
