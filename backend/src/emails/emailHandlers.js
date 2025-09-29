@@ -15,7 +15,7 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
 
 export const sendOtpEmail = async (email, otp, clientURL, isReset = false) => {
   console.log("Preparing to send OTP email to:", email, { isReset });
-  const html = createOtpEmailTemplate(otp, clientURL, isReset);
+  const html = createOtpEmailTemplate(otp, isReset);
   const subject = isReset ? "Reset Your Password" : "Verify Your Email";
   try {
     await sendEmail({ to: email, subject, html });
