@@ -6,7 +6,7 @@ import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
 import MessageInput from "./MessageInput";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 
-function ChatContainer({ toggleRightSidebar }) {
+function ChatContainer() {
   const {
     selectedUser,
     getMessagesByUserId,
@@ -39,12 +39,13 @@ function ChatContainer({ toggleRightSidebar }) {
 
       {/* Header - Fixed position */}
       <div className="border-b border-purple-200 relative z-10 flex-shrink-0">
-        <ChatHeader toggleRightSidebar={toggleRightSidebar} />
+        <ChatHeader />
+        {/* Gradient underline */}
         <div className="h-1 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500" />
       </div>
 
       {/* Messages - Scrollable area with fixed height */}
-      <div className="flex-1 overflow-y-auto px-6 py-2 min-h-0" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+      <div className="flex-1 overflow-y-auto px-6 py-2 min-h-0" style={{ maxHeight: 'calc(110vh - 200px)' }}>
         {messages.length > 0 && !isMessagesLoading ? (
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.map((msg) => (

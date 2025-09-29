@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import ProfileHeader from "../components/ProfileHeader";
@@ -7,13 +6,11 @@ import ChatsList from "../components/ChatsList";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
 import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
-import { UserX, Menu } from "lucide-react";
+import { UserX } from "lucide-react";
 
 function ChatPage() {
   const { activeTab, selectedUser, messages } = useChatStore();
   const { onlineUsers, authUser, blockUser, unblockUser } = useAuthStore();
-  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
 
   // Filter messages to get images shared in the chat
   const sharedMedia = messages
@@ -35,48 +32,25 @@ function ChatPage() {
       <div className="h-1 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500"></div>
 
       {/* Main Layout */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar - Hidden on mobile by default, toggleable */}
-        <div
-          className={`fixed inset-y-0 left-0 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 z-20 md:static md:transform-none ${
-            isLeftSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          }`}
-        >
+      <div className="flex flex-1">
+        {/* Left Sidebar */}
+        <div className="w-80 flex flex-col bg-white border-r border-gray-200">
           <ProfileHeader />
           <ActiveTabSwitch />
-          <div className="flex-1 flex flex-col overflow-y-auto">
+          <div className="flex-1 flex flex-col">
             {activeTab === "chats" ? <ChatsList /> : <ContactList />}
           </div>
         </div>
 
-        {/* Mobile Toggle Button */}
-        <button
-          className="md:hidden fixed top-4 left-4 z-30 p-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg"
-          onClick={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-
         {/* Chat Area */}
-        <div className="flex-1 flex flex-col bg-white w-full">
-          {selectedUser ? (
-            <>
-              <ChatContainer
-                toggleRightSidebar={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
-              />
-            </>
-          ) : (
-            <NoConversationPlaceholder />
-          )}
+        <div className="flex-1 flex flex-col bg-white">
+          {selectedUser ? <ChatContainer /> : <NoConversationPlaceholder />}
         </div>
 
-        {/* Right Sidebar - Hidden on mobile by default, toggleable */}
+        {/* Right Sidebar - Only visible when chat is opened */}
         {selectedUser && (
-          <div
-            className={`fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 transform transition-transform duration-300 z-20 md:static md:transform-none ${
-              isRightSidebarOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
-            }`}
-          >
+          <div className="w-80 flex flex-col bg-white border-l border-gray-200">
+            {/* Right Sidebar Content */}
             <div className="flex-1 flex flex-col p-4 space-y-6 min-h-0">
               {/* User Info Section */}
               <div className="text-center">
@@ -101,6 +75,7 @@ function ChatPage() {
                   <p className="text-sm text-gray-500 text-center">No media shared yet</p>
                 ) : (
                   <>
+                    {/* Scrollable media container with custom scrollbar */}
                     <div className="max-h-60 overflow-y-auto space-y-2 custom-scrollbar">
                       <div className="grid grid-cols-3 gap-2 pr-2">
                         {sharedMedia.map((media, index) => (
@@ -128,6 +103,7 @@ function ChatPage() {
                 )}
               </div>
 
+              {/* Spacer to push button to bottom */}
               <div className="flex-1"></div>
 
               {/* Block/Unblock User Button */}
@@ -149,17 +125,21 @@ function ChatPage() {
           scrollbar-width: thin;
           scrollbar-color: #c084fc #f3f4f6;
         }
+
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
           background: #f3f4f6;
           border-radius: 10px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: linear-gradient(to bottom, #c084fc, #ec4899);
           border-radius: 10px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(to bottom, #a855f7, #db2777);
         }
