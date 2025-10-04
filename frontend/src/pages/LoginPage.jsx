@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { MessageCircle, Lock, Mail, Loader, Star, Rocket, Heart } from "lucide-react";
+import { MessageCircle, Lock, Mail, Loader, Star, Rocket, Heart, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
