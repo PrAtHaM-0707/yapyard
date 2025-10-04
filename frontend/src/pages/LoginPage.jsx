@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { login, isLoggingIn } = useAuthStore();
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +35,39 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 relative overflow-hidden flex items-center justify-center p-4">
+      {/* Floating Info Button */}
+      <div className="fixed top-4 right-4 z-50">
+        <div className="relative">
+          <button
+            onClick={() => setShowDisclaimer(!showDisclaimer)}
+            className="bg-yellow-400 hover:bg-yellow-500 text-white rounded-full p-2 shadow-lg transition-colors duration-300"
+            title="Hosting Info"
+          >
+            <Info className="w-5 h-5" />
+          </button>
+
+          {showDisclaimer && (
+            <div className="absolute right-0 mt-2 w-64 bg-white border border-yellow-400 rounded-lg shadow-xl p-4 text-xs text-gray-700">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold text-yellow-600">
+                  ⚡ Hosting Info
+                </span>
+                <button
+                  onClick={() => setShowDisclaimer(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
+              </div>
+              <p>
+                This project is hosted on Render’s free tier. The backend may
+                take 10–30 seconds to wake up after inactivity. Thanks for your
+                patience 🙏
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="absolute inset-0">
         <div className="absolute top-4 left-4 w-32 h-32 bg-yellow-400 rounded-full opacity-20 animate-bounce"></div>
         <div className="absolute top-60 right-8 w-24 h-24 bg-green-400 rounded-lg rotate-45 opacity-30 animate-pulse"></div>
