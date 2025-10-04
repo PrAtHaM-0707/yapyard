@@ -8,7 +8,8 @@ function SignUpPage() {
   const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
   const { signup, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
-
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
