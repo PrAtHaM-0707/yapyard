@@ -62,7 +62,7 @@ function ContactList() {
             No users found
           </div>
         ) : (
-          <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
+          <div className="space-y-2 h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
             {allContacts.slice(0, 4).map((contact) => (
               <div
                 key={contact._id}
@@ -126,7 +126,7 @@ function ContactList() {
           No contacts found
         </div>
       ) : (
-        <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
+        <div className="space-y-2 h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
           {searchResults.slice(0, 4).map((contact) => (
             <div
               key={contact._id}
