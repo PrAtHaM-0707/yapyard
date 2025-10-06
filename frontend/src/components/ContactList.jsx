@@ -72,9 +72,10 @@ function ContactList() {
                 <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
                   <div className="w-12 h-12 rounded-full overflow-hidden">
                     <img
-                      src={contact.profilePic || "/avatar.png"}
-                      alt={contact.fullName}
+                      src={contact.profilePic ? contact.profilePic : "/avatar.png"}
+                      alt={contact.fullName ? contact.fullName : "Unknown User"}
                       className="w-full h-full object-cover"
+                      onError={(e) => { e.target.src = "/avatar.png"; }}
                     />
                     {onlineUsers.includes(contact._id) && (
                       <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
@@ -82,8 +83,8 @@ function ContactList() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-gray-900 font-medium truncate">{contact.fullName}</h4>
-                  <p className="text-xs text-gray-500 truncate">@{contact.username}</p>
+                  <h4 className="text-gray-900 font-medium truncate">{contact.fullName || "Unknown User"}</h4>
+                  <p className="text-xs text-gray-500 truncate">@{contact.username || "unknown"}</p>
                 </div>
                 {onlineUsers.includes(contact._id) && (
                   <span className="w-3 h-3 bg-cyan-500 rounded-full"></span>
@@ -95,12 +96,13 @@ function ContactList() {
       ) : searchedUser ? (
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative">
+            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative`}>
               <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img
-                  src={searchedUser.profilePic || "/avatar.png"}
-                  alt={searchedUser.fullName}
+                  src={searchedUser.profilePic ? searchedUser.profilePic : "/avatar.png"}
+                  alt={searchedUser.fullName ? searchedUser.fullName : "Unknown User"}
                   className="w-full h-full object-cover"
+                  onError={(e) => { e.target.src = "/avatar.png"; }}
                 />
                 {onlineUsers.includes(searchedUser._id) && (
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
@@ -108,8 +110,8 @@ function ContactList() {
               </div>
             </div>
             <div className="flex-1">
-              <h4 className="text-gray-900 font-medium truncate">{searchedUser.fullName}</h4>
-              <p className="text-xs text-gray-500 truncate">@{searchedUser.username}</p>
+              <h4 className="text-gray-900 font-medium truncate">{searchedUser.fullName || "Unknown User"}</h4>
+              <p className="text-xs text-gray-500 truncate">@{searchedUser.username || "unknown"}</p>
             </div>
           </div>
           <button
@@ -131,12 +133,13 @@ function ContactList() {
               className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
               onClick={() => setSelectedUser(contact)}
             >
-              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative">
+              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   <img
-                    src={contact.profilePic || "/avatar.png"}
-                    alt={contact.fullName}
+                    src={contact.profilePic ? contact.profilePic : "/avatar.png"}
+                    alt={contact.fullName ? contact.fullName : "Unknown User"}
                     className="w-full h-full object-cover"
+                    onError={(e) => { e.target.src = "/avatar.png"; }}
                   />
                   {onlineUsers.includes(contact._id) && (
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
@@ -144,8 +147,8 @@ function ContactList() {
                 </div>
               </div>
               <div className="flex-1">
-                <h4 className="text-gray-900 font-medium truncate">{contact.fullName}</h4>
-                <p className="text-xs text-gray-500 truncate">@{contact.username}</p>
+                <h4 className="text-gray-900 font-medium truncate">{contact.fullName || "Unknown User"}</h4>
+                <p className="text-xs text-gray-500 truncate">@{contact.username || "unknown"}</p>
               </div>
               {onlineUsers.includes(contact._id) && (
                 <span className="w-3 h-3 bg-cyan-500 rounded-full"></span>
