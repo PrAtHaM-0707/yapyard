@@ -70,8 +70,8 @@ Yapyard is a modern, full-stack chat application built with React and Node.js. I
 #### 1. Clone the repository
 
 ```sh
-git clone <your-repo-url>
-cd yapyard-main
+git clone https://github.com/PrAtHaM-0707/yapyard.git
+cd yapyard
 ```
 
 #### 2. Configure Environment Variables
