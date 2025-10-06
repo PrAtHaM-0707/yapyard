@@ -58,9 +58,7 @@ function SignUpPage() {
                 </button>
               </div>
               <p>
-                This project is hosted on Render’s free tier.  
-                The backend may take 10–30 seconds to wake up after inactivity.  
-                Thanks for your patience 🙏
+                This project is hosted on Render’s free tier. The backend may take up to 1 minute to wake up after inactivity. Thank you for your patience 🙏
               </p>
             </div>
           )}
