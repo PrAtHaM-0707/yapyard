@@ -11,7 +11,6 @@ function ContactList() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchedUser, setSearchedUser] = useState(null);
 
-  // Fetch all users on mount
   useEffect(() => {
     getAllContacts();
   }, [getAllContacts]);
@@ -21,7 +20,6 @@ function ContactList() {
       setSearchResults([]);
       setSearchedUser(null);
     } else if (searchQuery.startsWith("@")) {
-      // Handle @username search
       const username = searchQuery.slice(1).toLowerCase();
       searchUserByUsername(username).then((user) => {
         if (user && user._id !== authUser._id) {
@@ -33,7 +31,6 @@ function ContactList() {
         }
       });
     } else {
-      // Filter local contacts for name/username search
       const filtered = allContacts.filter(
         (contact) =>
           contact.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,8 +42,7 @@ function ContactList() {
   }, [searchQuery, allContacts, searchUserByUsername, authUser._id]);
 
   return (
-    <div className="w-full h-full flex-1 space-y-2 overflow-y-auto p-2 relative">
-      {/* Search Bar */}
+    <div className="w-full flex-1 space-y-2 p-2 relative">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
@@ -58,7 +54,6 @@ function ContactList() {
         />
       </div>
 
-      {/* Loading or No Results */}
       {isUsersLoading ? (
         <UsersLoadingSkeleton />
       ) : searchQuery.trim() === "" ? (
@@ -67,8 +62,8 @@ function ContactList() {
             No users found
           </div>
         ) : (
-          <div className="space-y-2 max-h-[calc(100%-60px)] overflow-y-auto">
-            {allContacts.map((contact) => (
+          <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
+            {allContacts.slice(0, 4).map((contact) => (
               <div
                 key={contact._id}
                 className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
@@ -98,7 +93,6 @@ function ContactList() {
           </div>
         )
       ) : searchedUser ? (
-        // Searched User (from @username search)
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative`}>
@@ -130,9 +124,8 @@ function ContactList() {
           No contacts found
         </div>
       ) : (
-        // Search Results (from name/username search)
-        <div className="space-y-2 max-h-[calc(100%-60px)] overflow-y-auto">
-          {searchResults.map((contact) => (
+        <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
+          {searchResults.slice(0, 4).map((contact) => (
             <div
               key={contact._id}
               className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
@@ -161,6 +154,26 @@ function ContactList() {
           ))}
         </div>
       )}
+      <style jsx>{`
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #c084fc #f3f4f6;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f3f4f6;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #c084fc, #ec4899);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #a855f7, #db2777);
+        }
+      `}</style>
     </div>
   );
 }
