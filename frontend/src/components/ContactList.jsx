@@ -63,7 +63,7 @@ function ContactList() {
           </div>
         ) : (
           <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
-            {allContacts.map((contact) => (
+            {allContacts.slice(0, 4).map((contact) => (
               <div
                 key={contact._id}
                 className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
@@ -127,7 +127,7 @@ function ContactList() {
         </div>
       ) : (
         <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
-          {searchResults.map((contact) => (
+          {searchResults.slice(0, 4).map((contact) => (
             <div
               key={contact._id}
               className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
