@@ -69,13 +69,13 @@ function ContactList() {
                 className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
                 onClick={() => setSelectedUser(contact)}
               >
-                <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative">
+                <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
                   <div className="w-12 h-12 rounded-full overflow-hidden">
                     <img
-                      src={contact.profilePic ? contact.profilePic : "/avatar.png"}
-                      alt={contact.fullName ? contact.fullName : "Unknown User"}
+                      src={contact.profilePic || "/avatar.png"}
+                      alt={contact.fullName || "Unknown User"}
                       className="w-full h-full object-cover"
-                      onError={(e) => { e.target.src = "/avatar.png"; }}
+                      onError={(e) => { e.target.src = "/public/avatar.png"; }} // Updated fallback path
                     />
                     {onlineUsers.includes(contact._id) && (
                       <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
@@ -96,13 +96,13 @@ function ContactList() {
       ) : searchedUser ? (
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative">
+            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative`}>
               <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img
-                  src={searchedUser.profilePic ? searchedUser.profilePic : "/avatar.png"}
-                  alt={searchedUser.fullName ? searchedUser.fullName : "Unknown User"}
+                  src={searchedUser.profilePic || "/public/avatar.png"}
+                  alt={searchedUser.fullName || "Unknown User"}
                   className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = "/avatar.png"; }}
+                  onError={(e) => { e.target.src = "/public/avatar.png"; }}
                 />
                 {onlineUsers.includes(searchedUser._id) && (
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
@@ -133,13 +133,13 @@ function ContactList() {
               className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
               onClick={() => setSelectedUser(contact)}
             >
-              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative">
+              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   <img
-                    src={contact.profilePic ? contact.profilePic : "/avatar.png"}
-                    alt={contact.fullName ? contact.fullName : "Unknown User"}
+                    src={contact.profilePic || "/public/avatar.png"}
+                    alt={contact.fullName || "Unknown User"}
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = "/avatar.png"; }}
+                    onError={(e) => { e.target.src = "/public/avatar.png"; }}
                   />
                   {onlineUsers.includes(contact._id) && (
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-500 rounded-full border-2 border-white"></span>
