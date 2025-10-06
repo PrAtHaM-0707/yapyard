@@ -63,7 +63,7 @@ function ContactList() {
           </div>
         ) : (
           <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
-            {allContacts.slice(0, 4).map((contact) => (
+            {allContacts.map((contact) => (
               <div
                 key={contact._id}
                 className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
@@ -95,7 +95,7 @@ function ContactList() {
       ) : searchedUser ? (
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative`}>
+            <div className={`avatar ${onlineUsers.includes(searchedUser._id) ? "online" : "offline"} relative">
               <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img
                   src={searchedUser.profilePic || "/avatar.png"}
@@ -125,13 +125,13 @@ function ContactList() {
         </div>
       ) : (
         <div className="space-y-2 h-64 overflow-y-auto custom-scrollbar">
-          {searchResults.slice(0, 4).map((contact) => (
+          {searchResults.map((contact) => (
             <div
               key={contact._id}
               className="bg-white p-4 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center gap-3"
               onClick={() => setSelectedUser(contact)}
             >
-              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative`}>
+              <div className={`avatar ${onlineUsers.includes(contact._id) ? "online" : "offline"} relative">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   <img
                     src={contact.profilePic || "/avatar.png"}
